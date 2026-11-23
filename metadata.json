@@ -1,0 +1,6 @@
+{
+  "name": "CREATOR ARCADE",
+  "description": "An independent fan made PC creator arcade featuring CarterPCs and KayJayOhPCs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
