@@ -24,7 +24,15 @@ import {
   PORTRAIT_SIZE,
   sampleAvatarSignature,
 } from "./pixel-avatar";
-import { findCopyViolations, navigationItems, researchBrief, siteConfig } from "./site";
+import {
+  findCopyViolations,
+  getRouteMeta,
+  navigationItems,
+  researchBrief,
+  routeMeta,
+  siteConfig,
+} from "./site";
+import { homeHeroCopy } from "../views/home-view";
 import {
   builderContactEmail,
   builderTiktokHandle,
@@ -36,6 +44,34 @@ import {
   supportTargetSpecs,
 } from "../views/support-view";
 import { hireCapabilities, hireProcess, hireServices } from "../views/hire-view";
+
+test("every route has a unique document title, description, and absolute share card URL", () => {
+  assert.equal(siteConfig.siteUrl.startsWith("https://"), true);
+  assert.equal(siteConfig.ogImageUrl, `${siteConfig.siteUrl}/og-card.png`);
+
+  const requiredPaths = [
+    "/",
+    "/play",
+    "/play/carterpcs",
+    "/play/kayjayohpcs",
+    "/support",
+    "/hire",
+  ];
+  const titles = new Set<string>();
+  const descriptions = new Set<string>();
+
+  for (const p of requiredPaths) {
+    const meta = getRouteMeta(p);
+    assert.equal(meta.path, p);
+    assert.equal(meta.title.length > 10, true);
+    assert.equal(meta.description.length > 30, true);
+    titles.add(meta.title);
+    descriptions.add(meta.description);
+  }
+
+  assert.equal(titles.size, requiredPaths.length);
+  assert.equal(descriptions.size, requiredPaths.length);
+});
 
 test("creator roster has accurate public profiles, optional avatarSrc support, and distinct worlds", () => {
   assert.equal(creatorRoster.length, 2);
@@ -193,6 +229,8 @@ test("all user facing copy obeys strict copy rules: no dashes, no phones, no Ter
     siteConfig.description,
     siteConfig.disclaimer,
     siteConfig.shortDisclaimer,
+    ...Object.values(routeMeta).flatMap((m) => [m.title, m.description]),
+    ...Object.values(homeHeroCopy),
     ...navigationItems.map((n) => n.label),
     researchBrief.title,
     researchBrief.summary,

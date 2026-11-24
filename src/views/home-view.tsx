@@ -3,49 +3,97 @@ import { PixelAvatarBadge } from "@/components/pixel-avatar-badge";
 import { creatorRoster } from "@/lib/creators";
 import { siteConfig } from "@/lib/site";
 
+export const homeHeroCopy = {
+  railLeft: "FAN MADE 60FPS PC CREATOR ARCADE",
+  railRight: "CARTERPCS + KAYJAYOHPCS",
+  kicker: "WHAT THIS IS / PLAYABLE IN 10 SECONDS",
+  howToPlay:
+    "Pick CarterPCs or KayJayOhPCs below. Tap to hop and hold to jump higher over DDR5 RAM, triple slot GPUs, and car tire PCs, then test your build instincts in the 6 round hardware quiz.",
+  requestLabel: "WHY THIS EXISTS / THINKPAD T14 GEN 2 REQUEST",
+  requestSummary:
+    "Built by university student Joseph Ayomide Adebiyi to earn a reply that helps source a refurbished Lenovo ThinkPad T14 Gen 2 AMD development laptop.",
+  disclaimerNote:
+    "INDEPENDENT FAN PROJECT. NO CREATOR PARTNERSHIP OR ENDORSEMENT IS IMPLIED.",
+} as const;
+
 export function HomeView() {
   return (
     <main id="main-content" className="arena-home anim-page-reveal">
       <section className="arena-hero" aria-labelledby="arena-title">
         <div className="arena-rail">
-          <p>INDEPENDENT PC CREATOR ARCADE</p>
-          <span>ISSUE 001 / OPEN PLAY</span>
+          <p>{homeHeroCopy.railLeft}</p>
+          <span>{homeHeroCopy.railRight}</span>
         </div>
 
         <div className="arena-hero-grid">
           <div className="arena-hero-copy">
-            <p className="arena-kicker">PICK A CREATOR. TAKE THE BENCH.</p>
+            <p className="arena-kicker">{homeHeroCopy.kicker}</p>
             <h1 id="arena-title">
               PC CULTURE
               <br />
               GOES <span>PLAYABLE.</span>
             </h1>
-            <p className="arena-lede">
-              Creator inspired challenges built for people who love PCs. Choose
-              a route, hurdle the desk hardware, and see whether your build
-              instincts hold up.
-            </p>
+            <p className="arena-lede">{homeHeroCopy.howToPlay}</p>
+
             <div className="arena-actions">
-              <AppLink className="button button-primary" href="/play">
-                Choose your creator <span aria-hidden="true">↗</span>
+              <AppLink
+                className="button button-primary"
+                href="/play/carterpcs"
+              >
+                Play CarterPCs now <span aria-hidden="true">→</span>
               </AppLink>
-              <AppLink className="arena-text-link" href="/support">
-                Why the laptop request exists <span aria-hidden="true">↗</span>
+              <AppLink
+                className="button button-dark"
+                href="/play/kayjayohpcs"
+              >
+                Play KayJayOhPCs now <span aria-hidden="true">→</span>
               </AppLink>
             </div>
-            <p className="arena-note">
-              INDEPENDENT FAN PROJECT. NO CREATOR PARTNERSHIP OR ENDORSEMENT IS
-              IMPLIED.
-            </p>
+
+            <div
+              className="arena-request-callout"
+              aria-label="ThinkPad T14 Gen 2 laptop request and direct contact"
+            >
+              <p className="arena-request-kicker">
+                <span className="live-dot" aria-hidden="true" />
+                {homeHeroCopy.requestLabel}
+              </p>
+              <p className="arena-request-body">
+                {homeHeroCopy.requestSummary}
+              </p>
+              <div className="arena-request-links">
+                <AppLink className="arena-text-link" href="/support">
+                  Read the ThinkPad T14 Gen 2 letter{" "}
+                  <span aria-hidden="true">→</span>
+                </AppLink>
+                <a
+                  className="arena-text-link"
+                  href={`mailto:${siteConfig.email}?subject=CREATOR%20ARCADE%20%7C%20Laptop%20support`}
+                >
+                  Email {siteConfig.email} <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  className="arena-text-link"
+                  href={siteConfig.tiktokUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  TikTok {siteConfig.tiktokHandle}{" "}
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+
+            <p className="arena-note">{homeHeroCopy.disclaimerNote}</p>
           </div>
 
-          <aside className="arena-scoreboard" aria-label="Arcade status">
+          <aside className="arena-scoreboard" aria-label="Choose a creator to play">
             <div className="arena-scoreboard-head">
               <span className="letter-status-pill">
                 <span className="live-dot" aria-hidden="true" />
-                THE BENCH / LIVE BOARD
+                TAP A CREATOR TO START RUNNING
               </span>
-              <span>001</span>
+              <span>60FPS</span>
             </div>
             {creatorRoster.map((creator, index) => (
               <AppLink
@@ -55,41 +103,46 @@ export function HomeView() {
               >
                 <span className="arena-score-index">0{index + 1}</span>
                 <span className="arena-score-avatar" aria-hidden="true">
-                  <PixelAvatarBadge creator={creator} scale={1} variant="face" mode="idle" />
+                  <PixelAvatarBadge
+                    creator={creator}
+                    scale={1}
+                    variant="face"
+                    mode="idle"
+                  />
                 </span>
                 <span className="arena-score-name">
                   <small>{creator.world.worldName}</small>
-                  <strong>{creator.name}</strong>
+                  <strong>Play {creator.name}</strong>
                 </span>
                 <span className="arena-score-arrow" aria-hidden="true">
-                  ↗
+                  →
                 </span>
               </AppLink>
             ))}
             <div className="arena-scoreboard-stats">
               <div>
-                <strong>60FPS</strong>
-                <span>DESK RUN</span>
+                <strong>TAP</strong>
+                <span>LOW HOP</span>
               </div>
               <div>
-                <strong>06</strong>
-                <span>QUIZ PICKS</span>
+                <strong>HOLD</strong>
+                <span>HIGH JUMP</span>
               </div>
               <div>
-                <strong>02</strong>
-                <span>WORLDS</span>
+                <strong>T14 G2</strong>
+                <span>THE GOAL</span>
               </div>
             </div>
             <p className="arena-scoreboard-foot">
-              TWO DISTINCT CREATOR WORLDS ARE OPEN FOR PLAY.
+              WORKS ON TOUCH AND KEYBOARD. NO DOWNLOAD REQUIRED.
             </p>
           </aside>
         </div>
 
         <div className="arena-hero-bottom">
-          <span>NO DOWNLOAD REQUIRED</span>
-          <span>BUILT FOR TOUCH + KEYBOARD</span>
-          <span>MADE INDEPENDENTLY</span>
+          <span>TAP OR HOLD TO JUMP</span>
+          <span>THINKPAD T14 GEN 2 REQUEST ON /SUPPORT</span>
+          <span>MADE INDEPENDENTLY BY JOSEPH</span>
         </div>
       </section>
 
@@ -123,7 +176,12 @@ export function HomeView() {
               </div>
 
               <div className="arena-card-stage">
-                <PixelAvatarBadge creator={creator} scale={2} variant="face" mode="idle" />
+                <PixelAvatarBadge
+                  creator={creator}
+                  scale={2}
+                  variant="face"
+                  mode="idle"
+                />
                 <div className="arena-card-world-meta">
                   <span>{creator.world.worldName}</span>
                   <small>{creator.world.deskSubtitle}</small>
@@ -181,14 +239,15 @@ export function HomeView() {
 
           <article>
             <span>02 / THE REAL WORLD GOAL</span>
-            <h3>Make a practical laptop request without pressure.</h3>
+            <h3>Earn a reply for a ThinkPad T14 Gen 2 AMD.</h3>
             <p>
-              The support page explains the development laptop need, the target
-              ThinkPad specifications, and how someone could help source a
-              suitable refurbished machine. There is no payment form.
+              The support page opens with Joseph&apos;s personal letter, the
+              target refurbished ThinkPad T14 Gen 2 specifications, and direct
+              email and TikTok contact routes. There is no payment form.
             </p>
             <AppLink href="/support">
-              Read the laptop details <span aria-hidden="true">↗</span>
+              Read the ThinkPad T14 Gen 2 request{" "}
+              <span aria-hidden="true">↗</span>
             </AppLink>
           </article>
         </div>

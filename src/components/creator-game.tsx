@@ -1,9 +1,20 @@
+import { Suspense, lazy } from "react";
 import { AppLink } from "@/components/app-link";
-import { BenchQuiz } from "@/components/bench-quiz";
-import { CreatorRunner } from "@/components/creator-runner";
 import { PixelAvatarBadge } from "@/components/pixel-avatar-badge";
 import type { CreatorProfile } from "@/lib/creators";
 import { siteConfig } from "@/lib/site";
+
+const LazyCreatorRunner = lazy(() =>
+  import("@/components/creator-runner").then((m) => ({
+    default: m.CreatorRunner,
+  })),
+);
+
+const LazyBenchQuiz = lazy(() =>
+  import("@/components/bench-quiz").then((m) => ({
+    default: m.BenchQuiz,
+  })),
+);
 
 export type CreatorGameProps = {
   creator: CreatorProfile;
@@ -36,16 +47,37 @@ export function CreatorGame({ creator }: CreatorGameProps) {
           </div>
 
           <div className="creator-game-avatar-box">
-            <PixelAvatarBadge creator={creator} scale={2} variant="face" mode="idle" />
+            <PixelAvatarBadge
+              creator={creator}
+              scale={2}
+              variant="face"
+              mode="idle"
+            />
             <span className="creator-game-avatar-label">{creator.handle}</span>
           </div>
         </header>
 
-        {/* Primary Hero Experience: 60fps Endless Desk Runner */}
-        <CreatorRunner creator={creator} />
+        {/* Primary Hero Experience: 60fps Endless Desk Runner (Lazy Loaded) */}
+        <Suspense
+          fallback={
+            <div className="runner-loading-shell" role="status">
+              LOADING 60FPS DESK RUNNER...
+            </div>
+          }
+        >
+          <LazyCreatorRunner creator={creator} />
+        </Suspense>
 
-        {/* Bonus Mode: The Bench Quiz */}
-        <BenchQuiz creator={creator} />
+        {/* Bonus Mode: The Bench Quiz (Lazy Loaded) */}
+        <Suspense
+          fallback={
+            <div className="runner-loading-shell" role="status">
+              LOADING BENCH QUIZ...
+            </div>
+          }
+        >
+          <LazyBenchQuiz creator={creator} />
+        </Suspense>
       </section>
 
       <p className="creator-game-disclaimer">

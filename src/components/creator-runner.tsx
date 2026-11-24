@@ -1306,6 +1306,58 @@ export function CreatorRunner({ creator }: CreatorRunnerProps) {
         </div>
       </div>
 
+      {/* Large Thumb Zone Touch Controls for 360px Mobile Play */}
+      <div
+        className="runner-touch-controls"
+        role="group"
+        aria-label="Touch runner controls"
+      >
+        <button
+          type="button"
+          data-testid="touch-jump-btn"
+          className="runner-touch-btn runner-touch-jump"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            stageRef.current?.focus();
+            apiRef.current?.press();
+          }}
+          onPointerUp={(e) => {
+            e.preventDefault();
+            apiRef.current?.release();
+          }}
+          onPointerCancel={() => apiRef.current?.release()}
+          onPointerLeave={() => apiRef.current?.release()}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <strong>HOP / HOLD JUMP</strong>
+          <span>TAP LOW OR HOLD HIGH</span>
+        </button>
+        <button
+          type="button"
+          data-testid="touch-drop-btn"
+          className="runner-touch-btn runner-touch-drop"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            if (phase !== "running") {
+              apiRef.current?.press();
+              apiRef.current?.release();
+              return;
+            }
+            apiRef.current?.fastFall(true);
+          }}
+          onPointerUp={(e) => {
+            e.preventDefault();
+            apiRef.current?.fastFall(false);
+          }}
+          onPointerCancel={() => apiRef.current?.fastFall(false)}
+          onPointerLeave={() => apiRef.current?.fastFall(false)}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <strong>FAST DROP</strong>
+          <span>LAND QUICKLY</span>
+        </button>
+      </div>
+
       {/* Bottom Dock: Neutral Announcer Ticker + Shareable Score Card */}
       <div className="runner-dock">
         <p className="runner-ticker" aria-live="polite">

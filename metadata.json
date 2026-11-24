@@ -1,6 +1,6 @@
 {
-  "name": "CREATOR ARCADE",
-  "description": "An independent fan made PC creator arcade featuring CarterPCs and KayJayOhPCs.",
+  "name": "CREATOR ARCADE | Playable PC Creator Runner and ThinkPad Request",
+  "description": "Play a 60fps PC desk runner for CarterPCs and KayJayOhPCs, then read Joseph Ayomide Adebiyi's ThinkPad T14 Gen 2 workstation request.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

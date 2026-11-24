@@ -1,12 +1,14 @@
 export const siteConfig = {
   name: "CREATOR ARCADE",
+  siteUrl: "https://pc-world-arcade.vercel.app",
+  ogImageUrl: "https://pc-world-arcade.vercel.app/og-card.png",
   description:
-    "An independent fan made PC creator arcade with playable desk runner and bench quiz editions.",
+    "Play a 60fps PC desk runner for CarterPCs and KayJayOhPCs, then read Joseph Ayomide Adebiyi's ThinkPad T14 Gen 2 workstation request.",
   disclaimer:
     "CREATOR ARCADE is an independent fan made project. It is not affiliated with, sponsored by, or endorsed by any featured creator, their partners, or Lenovo.",
   shortDisclaimer:
     "Independent fan project, not affiliated with any featured creator.",
-  githubUrl: "https://github.com/JoeBuildsThings/carter-exe",
+  githubUrl: "https://github.com/JoeBuildsThings/PC-World-",
   githubProfileUrl: "https://github.com/JoeBuildsThings",
   linkedinUrl: "https://www.linkedin.com/in/joseph-ayomide-adebiyi-5bb66844b/",
   tiktokUrl: "https://www.tiktok.com/@joebuildsthings",
@@ -14,6 +16,64 @@ export const siteConfig = {
   tiktokName: "JoeCodes",
   email: "adebiyijosephayomide@gmail.com",
 } as const;
+
+export type RouteMetaEntry = {
+  path: string;
+  title: string;
+  description: string;
+};
+
+export const routeMeta: Record<string, RouteMetaEntry> = {
+  "/": {
+    path: "/",
+    title: "CREATOR ARCADE | Playable PC Creator Runner and ThinkPad Request",
+    description:
+      "Play a 60fps PC desk runner for CarterPCs and KayJayOhPCs, then read Joseph Ayomide Adebiyi's ThinkPad T14 Gen 2 workstation request.",
+  },
+  "/play": {
+    path: "/play",
+    title: "Choose Your Creator | CREATOR ARCADE",
+    description:
+      "Pick CarterPCs or KayJayOhPCs, sprint a 60fps hardware desk runner with touch or keyboard controls, and test your build instincts.",
+  },
+  "/play/carterpcs": {
+    path: "/play/carterpcs",
+    title: "CarterPCs Desk Runner and Bench Quiz | CREATOR ARCADE",
+    description:
+      "Run Carter's warm orange studio desk at 60fps, hurdle DDR5 RAM and triple slot GPUs, and take the 6 round CarterPCs hardware quiz.",
+  },
+  "/play/kayjayohpcs": {
+    path: "/play/kayjayohpcs",
+    title: "KayJayOhPCs Odd Build Runner and Bench Quiz | CREATOR ARCADE",
+    description:
+      "Sprint Keith's acid lime car tire PC workshop at 60fps, clear radiator and PSU obstacles, and solve 6 custom build diagnostic rounds.",
+  },
+  "/support": {
+    path: "/support",
+    title: "ThinkPad T14 Gen 2 Laptop Request | CREATOR ARCADE",
+    description:
+      "Read Joseph Ayomide Adebiyi's personal letter requesting a refurbished Lenovo ThinkPad T14 Gen 2 AMD development laptop. Reach out via email or TikTok.",
+  },
+  "/hire": {
+    path: "/hire",
+    title: "Hire Joseph Ayomide Adebiyi for Backend Work | CREATOR ARCADE",
+    description:
+      "Commission backend APIs, service integrations, and production web engineering from Joseph Ayomide Adebiyi to fund a dedicated ThinkPad workstation.",
+  },
+};
+
+export function getRouteMeta(pathname: string): RouteMetaEntry {
+  if (pathname === "/play/kayjahopc") {
+    return routeMeta["/play/kayjayohpcs"];
+  }
+  return (
+    routeMeta[pathname] ?? {
+      path: pathname,
+      title: "Route Not Found | CREATOR ARCADE",
+      description: siteConfig.description,
+    }
+  );
+}
 
 export const navigationItems = [
   { label: "Creators", href: "/play" },

@@ -9,7 +9,7 @@ export type SiteHeaderProps = {
 export function SiteHeader({ currentPath, onOpenBrief }: SiteHeaderProps) {
   return (
     <header className="site-header">
-      <AppLink className="brand" href="/" aria-label="Creator Arcade home">
+      <AppLink className="brand" href="/">
         <span className="brand-mark" aria-hidden="true">
           C<span>/</span>A
         </span>

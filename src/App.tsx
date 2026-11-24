@@ -1,19 +1,52 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { AppLink } from "@/components/app-link";
-import { CreatorGame } from "@/components/creator-game";
-import { ResearchBriefModal } from "@/components/research-brief-modal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { creatorProfiles } from "@/lib/creators";
-import { HireView } from "@/views/hire-view";
+import { getRouteMeta, siteConfig } from "@/lib/site";
 import { HomeView } from "@/views/home-view";
-import { PlaySelectView } from "@/views/play-select-view";
-import { SupportView } from "@/views/support-view";
+
+const LazyPlaySelectView = lazy(() =>
+  import("@/views/play-select-view").then((m) => ({
+    default: m.PlaySelectView,
+  })),
+);
+
+const LazyCreatorGame = lazy(() =>
+  import("@/components/creator-game").then((m) => ({
+    default: m.CreatorGame,
+  })),
+);
+
+const LazySupportView = lazy(() =>
+  import("@/views/support-view").then((m) => ({
+    default: m.SupportView,
+  })),
+);
+
+const LazyHireView = lazy(() =>
+  import("@/views/hire-view").then((m) => ({
+    default: m.HireView,
+  })),
+);
+
+const LazyResearchBriefModal = lazy(() =>
+  import("@/components/research-brief-modal").then((m) => ({
+    default: m.ResearchBriefModal,
+  })),
+);
 
 function normalizePathname(raw: string): string {
   if (!raw || raw === "/") return "/";
   const trimmed = raw.replace(/\/+$/, "");
   return trimmed === "" ? "/" : trimmed;
+}
+
+function setMetaTag(selector: string, content: string) {
+  const el = document.querySelector<HTMLMetaElement>(selector);
+  if (el) {
+    el.setAttribute("content", content);
+  }
 }
 
 export default function App() {
@@ -38,18 +71,22 @@ export default function App() {
 
   useEffect(() => {
     if (typeof document === "undefined") return;
-    if (pathname === "/") {
-      document.title = "CREATOR ARCADE";
-    } else if (pathname === "/play") {
-      document.title = "Choose a Creator | CREATOR ARCADE";
-    } else if (pathname === "/play/carterpcs") {
-      document.title = "CarterPCs Challenge | CREATOR ARCADE";
-    } else if (pathname === "/play/kayjayohpcs" || pathname === "/play/kayjahopc") {
-      document.title = "KayJayOhPCs Challenge | CREATOR ARCADE";
-    } else if (pathname === "/support") {
-      document.title = "Workstation Support | CREATOR ARCADE";
-    } else if (pathname === "/hire") {
-      document.title = "Hire | CREATOR ARCADE";
+    const meta = getRouteMeta(pathname);
+    const canonicalUrl = `${siteConfig.siteUrl}${meta.path === "/" ? "/" : meta.path}`;
+
+    document.title = meta.title;
+    setMetaTag('meta[name="description"]', meta.description);
+    setMetaTag('meta[property="og:title"]', meta.title);
+    setMetaTag('meta[property="og:description"]', meta.description);
+    setMetaTag('meta[property="og:url"]', canonicalUrl);
+    setMetaTag('meta[name="twitter:title"]', meta.title);
+    setMetaTag('meta[name="twitter:description"]', meta.description);
+
+    const canonicalEl = document.querySelector<HTMLLinkElement>(
+      'link[rel="canonical"]',
+    );
+    if (canonicalEl) {
+      canonicalEl.setAttribute("href", canonicalUrl);
     }
   }, [pathname]);
 
@@ -58,19 +95,19 @@ export default function App() {
       return <HomeView />;
     }
     if (pathname === "/play") {
-      return <PlaySelectView />;
+      return <LazyPlaySelectView />;
     }
     if (pathname === "/play/carterpcs") {
-      return <CreatorGame creator={creatorProfiles.carterpcs} />;
+      return <LazyCreatorGame creator={creatorProfiles.carterpcs} />;
     }
     if (pathname === "/play/kayjayohpcs" || pathname === "/play/kayjahopc") {
-      return <CreatorGame creator={creatorProfiles.kayjayohpcs} />;
+      return <LazyCreatorGame creator={creatorProfiles.kayjayohpcs} />;
     }
     if (pathname === "/support") {
-      return <SupportView />;
+      return <LazySupportView />;
     }
     if (pathname === "/hire") {
-      return <HireView />;
+      return <LazyHireView />;
     }
     return (
       <main id="main-content" className="detail-page">
@@ -103,12 +140,24 @@ export default function App() {
         currentPath={pathname}
         onOpenBrief={() => setBriefOpen(true)}
       />
-      {renderRoute()}
+      <Suspense
+        fallback={
+          <main id="main-content" className="route-loading-shell" role="status">
+            LOADING BENCH...
+          </main>
+        }
+      >
+        {renderRoute()}
+      </Suspense>
       <SiteFooter onOpenBrief={() => setBriefOpen(true)} />
-      <ResearchBriefModal
-        open={briefOpen}
-        onClose={() => setBriefOpen(false)}
-      />
+      {briefOpen && (
+        <Suspense fallback={null}>
+          <LazyResearchBriefModal
+            open={briefOpen}
+            onClose={() => setBriefOpen(false)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

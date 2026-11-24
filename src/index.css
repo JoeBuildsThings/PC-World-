@@ -157,8 +157,10 @@ button:focus-visible {
 }
 
 .main-nav a.is-active {
-  color: var(--accent);
+  color: var(--ink);
   text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
   text-underline-offset: 6px;
 }
 
@@ -256,7 +258,7 @@ button:focus-visible {
 .eyebrow,
 .play-eyebrow {
   margin: 0;
-  color: var(--muted);
+  color: var(--ink-soft);
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 800;
@@ -290,7 +292,7 @@ button:focus-visible {
   justify-content: space-between;
   gap: var(--space-2);
   border-bottom: 1px solid var(--line);
-  color: var(--muted);
+  color: var(--ink-soft);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 800;
@@ -309,14 +311,17 @@ button:focus-visible {
 .arena-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-  align-items: center;
-  gap: var(--space-6);
-  padding-block: var(--space-8);
+  align-items: start;
+  gap: var(--space-5);
+  padding-block: var(--space-5);
 }
 
 .arena-kicker {
+  display: inline-block;
   margin: 0 0 var(--space-2);
-  color: var(--accent);
+  padding: 4px var(--space-1);
+  background: var(--ink);
+  color: var(--acid);
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 800;
@@ -374,11 +379,47 @@ button:focus-visible {
 
 .arena-note {
   margin: var(--space-3) 0 0;
-  color: var(--muted);
+  color: var(--ink-soft);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.08em;
+}
+
+.arena-request-callout {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--paper-bright);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.arena-request-kicker {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arena-request-body {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.arena-request-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-1);
 }
 
 .arena-scoreboard {
@@ -667,7 +708,10 @@ button:focus-visible {
 }
 
 .arena-project-grid span {
-  color: var(--accent);
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--ink);
+  color: var(--acid);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 800;
@@ -1174,6 +1218,72 @@ button:focus-visible {
   font-weight: 800;
   letter-spacing: 0.1em;
   cursor: pointer;
+}
+
+.runner-touch-controls {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  background: #10140f;
+  border-top: 1px solid var(--line-light);
+}
+
+.runner-touch-btn {
+  min-height: 54px;
+  padding: 6px var(--space-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 2px solid var(--creator-accent);
+  background: var(--ink-soft);
+  color: var(--paper-bright);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.runner-touch-jump {
+  background: var(--creator-accent);
+  color: var(--ink);
+}
+
+.runner-touch-btn strong {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.runner-touch-btn span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.88;
+}
+
+.runner-touch-btn:active {
+  transform: translate3d(1px, 1px, 0);
+}
+
+.runner-loading-shell,
+.route-loading-shell {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: var(--ink);
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
 }
 
 .runner-dock {
@@ -2503,30 +2613,113 @@ button:focus-visible {
     padding-inline: 4px;
   }
 
+  .arena-hero {
+    padding-top: var(--space-1);
+  }
+
+  .arena-rail {
+    min-height: 30px;
+    padding-block: 4px;
+    gap: 2px var(--space-1);
+  }
+
+  .arena-hero-grid {
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+  }
+
+  .arena-kicker {
+    margin-bottom: var(--space-1);
+  }
+
+  .arena-hero-copy h1 {
+    font-size: clamp(36px, 10.5vw, 44px);
+  }
+
+  .arena-lede {
+    margin-top: var(--space-1);
+    font-size: 14px;
+    line-height: 1.48;
+  }
+
+  .arena-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+  }
+
+  .arena-actions .button {
+    padding: 0 var(--space-1);
+    font-size: 10px;
+  }
+
+  .arena-request-callout {
+    margin-top: var(--space-2);
+    padding: 10px var(--space-2);
+  }
+
+  .arena-request-body {
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.42;
+  }
+
+  .arena-request-links {
+    gap: 4px var(--space-2);
+    margin-top: 4px;
+  }
+
+  .arena-request-links .arena-text-link {
+    min-height: 36px;
+    font-size: 10px;
+  }
+
+  .arena-note {
+    margin-top: var(--space-1);
+  }
+
   .play-page,
   .creator-game-page {
-    padding-block: var(--space-2) var(--space-6);
+    padding-block: var(--space-1) var(--space-6);
+  }
+
+  .creator-game-topline {
+    min-height: 36px;
+    padding-bottom: 4px;
+    font-size: 10px;
+  }
+
+  .play-topline-note {
+    display: none;
   }
 
   .creator-game-heading {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-2);
-    padding-block: var(--space-2);
+    gap: var(--space-1);
+    padding-block: var(--space-1);
   }
 
   .creator-game-heading h1 {
-    font-size: clamp(28px, 8.5vw, 40px);
+    margin: 2px 0;
+    font-size: clamp(24px, 7.5vw, 34px);
   }
 
   .creator-game-description {
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.35;
   }
 
   .creator-game-avatar-box {
-    padding: var(--space-1);
+    padding: 4px;
     flex-shrink: 0;
+  }
+
+  .runner-bar {
+    min-height: 44px;
+    padding: 4px var(--space-1);
   }
 
   .runner-bar-title {
@@ -2537,10 +2730,28 @@ button:focus-visible {
     margin-right: auto;
   }
 
+  .runner-pace-row {
+    padding: 4px var(--space-1);
+    gap: 4px var(--space-1);
+  }
+
+  .runner-pace-detail {
+    display: none;
+  }
+
   .runner-overlay {
-    justify-content: flex-start;
+    justify-content: flex-end;
     padding: var(--space-2);
-    background: rgba(21, 25, 20, 0.58);
+    background: rgba(21, 25, 20, 0.64);
+  }
+
+  .runner-title {
+    font-size: clamp(24px, 7vw, 34px);
+  }
+
+  .runner-hint {
+    font-size: 13px;
+    line-height: 1.35;
   }
 
   .runner-overlay-over {
@@ -2549,18 +2760,15 @@ button:focus-visible {
   }
 
   .runner-pace-buttons {
-    width: 100%;
+    flex: 1;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .runner-pace-btn {
+    min-height: 40px;
     padding: 0 4px;
     font-size: 10px;
-  }
-
-  .runner-pace-detail {
-    margin-left: 0;
   }
 
   .runner-actions {
